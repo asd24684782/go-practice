@@ -2,53 +2,46 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
+// Booking contains binded and validated data.
+type Booking struct {
+	CheckIn  time.Time `form:"check_in" binding:"required,bookabledate" time_format:"2006-01-02"`
+	CheckOut time.Time `form:"check_out" binding:"required,gtfield=CheckIn" time_format:"2006-01-02"`
+}
+
+var bookableDate validator.Func = func(fl validator.FieldLevel) bool {
+	date, ok := fl.Field().Interface().(time.Time)
+	if ok {
+		today := time.Now()
+		if today.After(date) {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
-	router := gin.Default()
+	route := gin.Default()
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("bookabledate", bookableDate)
+	}
 
-	router.GET("/user/:name", func(c *gin.Context) {
-		name := c.Param("name")
-		c.JSON(http.StatusOK, gin.H{
-			"message": name,
-		})
-	})
+	route.GET("/bookable", getBookable)
+	route.Run(":8085")
+}
 
-	router.POST("/user/:name/*action", func(c *gin.Context) {
-		b := c.FullPath() == "/user/:name/*action" // true
-		c.String(http.StatusOK, "%t", b)
-	})
-
-	router.GET("/user/groups", func(c *gin.Context) {
-		c.String(http.StatusOK, "The available groups are [...]")
-	})
-
-	router.GET("/welcome", func(c *gin.Context) {
-		firstname := c.DefaultQuery("firstname", "Guest")
-		lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
-
-		c.String(http.StatusOK, "Hello %s %s", firstname, lastname)
-	})
-
-	router.POST("/form_post", func(c *gin.Context) {
-		message := c.PostForm("message")
-		nick := c.DefaultPostForm("nick", "anonymous")
-
-		c.JSON(http.StatusOK, gin.H{
-			"status":  "posted",
-			"message": message,
-			"nick":    nick,
-		})
-	})
-
-	
-	router.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+func getBookable(c *gin.Context) {
+	var b Booking
+	if err := c.ShouldBindWith(&b, binding.Query); err == nil {
+		c.JSON(http.StatusOK, gin.H{"message": "Booking dates are valid!"})
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
 }
