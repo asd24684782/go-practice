@@ -1,22 +1,20 @@
 package db
 
 import (
-	"log"
+	"database/sql"
 
-	"go-practice/pkg/common/models"
-
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	_ "github.com/lib/pq"
 )
 
-func Init(url string) *gorm.DB {
-    db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
-
+func Init(url string) *sql.DB {
+    db, err := sql.Open("postgres", "user=postgres password=5598 dbname=postgres sslmode=disable")
+    
     if err != nil {
-        log.Fatalln(err)
+        panic(err)
     }
- 
-    db.AutoMigrate(&models.Book{})
-
     return db
+}
+
+func Close(db *sql.DB){
+    db.Close()
 }
