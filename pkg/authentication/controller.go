@@ -10,12 +10,15 @@ type handler struct {
     DB *sql.DB
 }
 
+
 func RegisterRoutes(r *gin.Engine, db *sql.DB) {
     h := &handler{
         DB: db,
     }
 	
-	routes := r.Group("/auth")
+	routes := r.Group("/api/v1/auth")
 	routes.POST("/register",h.Register)
 
 }
+
+

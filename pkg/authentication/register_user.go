@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"go-practice/pkg/common/models"
+	"practice/pkg/common/models"
 
 	"github.com/gin-gonic/gin"
 
@@ -17,6 +17,13 @@ type RegisterRequestBody struct {
     Email		string `json:"email"`
 }
 
+// @Summary     register
+// @Tags        user
+// @version     1.0
+// @produce     application/json
+// @param       register    body      models.Register true "register data"
+// @Success     200         {object}  models.Register
+// @Router      /api/v1/auth/register [post]
 func (h handler) Register(c *gin.Context) {
 
     body := RegisterRequestBody{}
