@@ -3,7 +3,6 @@ package authentication
 import (
 	"fmt"
 	"net/http"
-
 	"practice/pkg/common/models"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +16,9 @@ type RegisterRequestBody struct {
     Email		string `json:"email"`
 }
 
+func NewRegisterRequestBody() *RegisterRequestBody {
+    return &RegisterRequestBody{}
+}
 // @Summary     register
 // @Tags        user
 // @version     1.0
@@ -24,7 +26,7 @@ type RegisterRequestBody struct {
 // @param       register    body      models.Register true "register data"
 // @Success     200         {object}  models.Register
 // @Router      /api/v1/auth/register [post]
-func (h handler) Register(c *gin.Context) {
+func (h *Handler) Register(c *gin.Context) {
 
     body := RegisterRequestBody{}
 

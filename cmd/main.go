@@ -1,8 +1,8 @@
 package main
 
 import (
-	"practice/pkg/authentication"
 	"practice/pkg/common/db"
+	"practice/pkg/controller"
 
 	_ "practice/docs"
 
@@ -37,7 +37,7 @@ func main() {
     r := gin.Default()
     h := db.Init(dbUrl)
 
-    authentication.RegisterRoutes(r, h)
+    controller.RegisterRoutes(r, h)
     // register more routes here
 
     url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
