@@ -1,4 +1,4 @@
-package authentication
+package api
 
 import (
 	"net/http"
@@ -16,9 +16,7 @@ type RegisterRequestBody struct {
     Email		string `json:"email"`
 }
 
-func NewRegisterRequestBody() *RegisterRequestBody {
-    return &RegisterRequestBody{}
-}
+
 // @Summary     register
 // @Tags        user
 // @version     1.0
@@ -36,11 +34,11 @@ func Register(c *gin.Context) {
         return
     }
 
-    var register models.Register
+    var user models.User
 	
-	register.Name = body.Name
-	register.Password = body.Password
-    register.Email = body.Email
+	user.Name = body.Name
+	user.Password = body.Password
+    user.Email = body.Email
 
     // 新增資料列：
     stmt, err := db.DB.Prepare("INSERT INTO users(username, password, email) VALUES($1, $2, $3);")
@@ -48,12 +46,12 @@ func Register(c *gin.Context) {
         panic(err)
     }
 
-    res, err := stmt.Exec(register.Name, register.Password, register.Email)
+    res, err := stmt.Exec(user.Name, user.Password, user.Email)
 
     if err != nil {
         panic(err)
     }
     println("已新增資料列。\n",res)
 
-    c.JSON(http.StatusCreated, &register)
+    c.JSON(http.StatusCreated, &user)
 }

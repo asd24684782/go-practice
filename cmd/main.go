@@ -35,10 +35,9 @@ func main() {
     dbUrl := viper.Get("DB_URL").(string)
 
     r := gin.Default()
+    //init db
     db.Init(dbUrl)
-
     controller.RegisterRoutes(r)
-    // register more routes here
 
     url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
     r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
