@@ -1,8 +1,8 @@
 package authentication
 
 import (
-	"fmt"
 	"net/http"
+	"practice/pkg/common/db"
 	"practice/pkg/common/models"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +26,7 @@ func NewRegisterRequestBody() *RegisterRequestBody {
 // @param       register    body      models.Register true "register data"
 // @Success     200         {object}  models.Register
 // @Router      /api/v1/auth/register [post]
-func (h *Handler) Register(c *gin.Context) {
+func Register(c *gin.Context) {
 
     body := RegisterRequestBody{}
 
@@ -42,9 +42,8 @@ func (h *Handler) Register(c *gin.Context) {
 	register.Password = body.Password
     register.Email = body.Email
 
-    fmt.Println(register)
     // 新增資料列：
-    stmt, err := h.DB.Prepare("INSERT INTO users(username, password, email) VALUES($1, $2, $3);")
+    stmt, err := db.DB.Prepare("INSERT INTO users(username, password, email) VALUES($1, $2, $3);")
     if err != nil {
         panic(err)
     }
