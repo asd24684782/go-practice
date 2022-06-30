@@ -23,7 +23,7 @@ type RegisterRequestBody struct {
 // @produce     application/json
 // @param       register    body      models.User true "User data"
 // @Success     200         {object}  models.User
-// @Router      /api/v1/auth/register [post]
+// @Router      /api/v1/user [post]
 func Register(c *gin.Context) {
 
     body := RegisterRequestBody{}

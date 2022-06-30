@@ -10,9 +10,10 @@ import (
 
 func RegisterRoutes(r *gin.Engine) {
 
-	routes := r.Group("/api/v1/auth")
-	routes.POST("/register", api.Register)
-	routes.GET("/find", api.FindUser)
+	routes := r.Group("/api/v1/user")
+	routes.POST("/", api.Register)
+	routes.GET("/", api.FindUser)
+	routes.PUT("/", api.UpdateUser)
 }
 
 

@@ -25,7 +25,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/auth/find": {
+        "/api/v1/user": {
             "get": {
                 "produces": [
                     "application/json"
@@ -42,9 +42,35 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/auth/register": {
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "update user",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            },
             "post": {
                 "produces": [
                     "application/json"

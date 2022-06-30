@@ -23,7 +23,7 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
-  /api/v1/auth/find:
+  /api/v1/user:
     get:
       produces:
       - application/json
@@ -35,7 +35,6 @@ paths:
       summary: find All
       tags:
       - user
-  /api/v1/auth/register:
     post:
       parameters:
       - description: User data
@@ -52,6 +51,24 @@ paths:
           schema:
             $ref: '#/definitions/models.User'
       summary: register
+      tags:
+      - user
+    put:
+      parameters:
+      - description: User data
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: update user
       tags:
       - user
 swagger: "2.0"
