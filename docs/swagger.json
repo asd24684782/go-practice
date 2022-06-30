@@ -18,6 +18,25 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
+        "/api/v1/auth/find": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "find All",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/register": {
             "post": {
                 "produces": [
@@ -29,12 +48,12 @@
                 "summary": "register",
                 "parameters": [
                     {
-                        "description": "User",
-                        "name": "user",
+                        "description": "User data",
+                        "name": "register",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Register"
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 ],
@@ -42,7 +61,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Register"
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 }
@@ -50,7 +69,7 @@
         }
     },
     "definitions": {
-        "models.Register": {
+        "models.User": {
             "type": "object",
             "properties": {
                 "email": {

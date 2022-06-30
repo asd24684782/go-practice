@@ -25,6 +25,25 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/auth/find": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "find All",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/register": {
             "post": {
                 "produces": [
@@ -36,12 +55,12 @@ const docTemplate = `{
                 "summary": "register",
                 "parameters": [
                     {
-                        "description": "User",
-                        "name": "user",
+                        "description": "User data",
+                        "name": "register",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Register"
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 ],
@@ -49,7 +68,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Register"
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 }
@@ -57,7 +76,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Register": {
+        "models.User": {
             "type": "object",
             "properties": {
                 "email": {
