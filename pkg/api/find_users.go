@@ -10,37 +10,24 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type User struct {
-	Name     string `json:"name"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
-}
-
 // @Summary     find All
 // @Tags        user
 // @version     1.0
 // @produce     application/json
 // @Success     200         {object}  models.User
 // @Router      /api/v1/user [get]
-func FindUser(c *gin.Context) {
+func FindUsers(c *gin.Context) {
 
-    var name string
+    var user models.User
 
-    // getting request's body
-    if err := c.BindJSON(&name); err != nil {
-        c.AbortWithError(http.StatusBadRequest, err)
-        return
-    }
-
+	users := make([]models.User, 0)
     // 查詢資料列：
     println("查詢資料列：")
-	str1 := "SELECT * FROM users WHERE username = '"
-	str2 := "'"
-	sql := str1 + name + str2
-    rows, err := db.DB.Query(sql)
+    rows, err := db.DB.Query("SELECT * FROM users")
 
-	var user models.User
-	users := make([]models.User, 0)
+    if err != nil {
+        panic(err)
+    }
 
     for rows.Next() {
 			var uid *int
