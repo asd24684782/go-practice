@@ -15,7 +15,7 @@ import (
 // @version     1.0
 // @produce     application/json
 // @Success     200         {object}  models.User
-// @Router      /api/v1/user [get]
+// @Router      /api/v1/users [get]
 func FindUsers(c *gin.Context) {
 
     var user models.User

@@ -14,6 +14,7 @@ func RegisterRoutes(r *gin.Engine) {
 	routes.POST("/", api.Register)
 	routes.GET("/", api.FindUsers)
 	routes.PUT("/", api.UpdateUser)
+	routes.POST("/login", api.Login)
 }
 
 

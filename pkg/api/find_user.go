@@ -39,6 +39,10 @@ func FindUser(c *gin.Context) {
 	sql := str1 + name + str2
     rows, err := db.DB.Query(sql)
 
+    if err != nil {
+        panic(err)
+    }
+	
 	var user models.User
 	users := make([]models.User, 0)
 
